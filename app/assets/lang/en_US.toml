@@ -22,7 +22,7 @@ newsErrorRetryButton = "Try Again"
 newsErrorNoneSpan = "No News"
 
 [ejs.loginOptions]
-loginOptionsTitle = "Login Options"
+loginOptionsTitle = "Welcome!"
 loginWithMicrosoft = "Login with Microsoft"
 cancelButton = "Cancel"
 

@@ -1,0 +1,149 @@
+[meta]
+displayName = "Español (ES)"
+
+[ejs.landing]
+updateAvailableTooltip = "Actualización disponible"
+usernamePlaceholder = "Nombre de usuario"
+usernameEditButton = "Editar"
+settingsTooltip = "Configuración"
+serverStatus = "SERVIDOR"
+serverStatusPlaceholder = "DESCONECTADO"
+mojangStatus = "ESTADO DE MOJANG"
+mojangStatusTooltipTitle = "Servicios"
+mojangStatusNETitle = "No&nbsp;Esencial"
+newsButton = "NOTICIAS"
+launchButton = "JUGAR"
+launchButtonPlaceholder = "&#8226; Ningún servidor seleccionado"
+launchDetails = "Por favor espera.."
+newsNavigationStatus = "{currentPage} de {totalPages}"
+newsErrorLoadSpan = "Buscando noticias.."
+newsErrorFailedSpan = "Error al cargar noticias"
+newsErrorRetryButton = "Intentar de nuevo"
+newsErrorNoneSpan = "Sin noticias"
+
+[ejs.loginOptions]
+loginOptionsTitle = "¡Bienvenido!"
+loginWithMicrosoft = "Iniciar sesión con Microsoft"
+cancelButton = "Cancelar"
+
+[ejs.overlay]
+serverSelectHeader = "Servidores disponibles"
+serverSelectConfirm = "Seleccionar"
+serverSelectCancel = "Cancelar"
+accountSelectHeader = "Seleccionar una cuenta"
+accountSelectConfirm = "Seleccionar"
+accountSelectCancel = "Cancelar"
+
+[ejs.settings]
+navHeaderText = "Configuración"
+navAccount = "Cuenta"
+navMinecraft = "Minecraft"
+navMods = "Mods"
+navJava = "Java"
+navLauncher = "Launcher"
+navAbout = "Acerca de"
+navUpdates = "Actualizaciones"
+navDone = "Listo"
+tabAccountHeaderText = "Configuración de cuenta"
+tabAccountHeaderDesc = "Añade nuevas cuentas o gestiona las existentes."
+microsoftAccount = "Microsoft"
+addMicrosoftAccount = "+ Añadir cuenta Microsoft"
+minecraftTabHeaderText = "Configuración de Minecraft"
+minecraftTabHeaderDesc = "Opciones relacionadas con el inicio del juego."
+gameResolutionTitle = "Resolución del juego"
+launchFullscreenTitle = "Iniciar en pantalla completa."
+autoConnectTitle = "Conectarse automáticamente al servidor al iniciar."
+launchDetachedTitle = "Iniciar el juego separado del launcher."
+launchDetachedDesc = "Si no está separado, cerrar el launcher también cerrará el juego."
+tabModsHeaderText = "Configuración de Mods"
+tabModsHeaderDesc = "Activar o desactivar mods."
+switchServerButton = "Cambiar"
+requiredMods = "Mods requeridos"
+optionalMods = "Mods opcionales"
+dropinMods = "Mods añadidos"
+addMods = "Añadir Mods"
+dropinRefreshNote = "(F5 para actualizar)"
+shaderpacks = "Shaderpacks"
+shaderpackDesc = "Activa o desactiva shaders. Ten en cuenta que solo funcionarán bien en equipos potentes."
+selectShaderpack = "Seleccionar Shaderpack"
+
+tabJavaHeaderText = "Configuración de Java"
+tabJavaHeaderDesc = "Gestiona la configuración de Java (avanzado)."
+memoryTitle = "Memoria"
+maxRAM = "RAM máxima"
+minRAM = "RAM mínima"
+memoryDesc = "La RAM mínima recomendada es 3GB. Igualar mínimo y máximo puede reducir lag."
+memoryTotalTitle = "Total"
+memoryAvailableTitle = "Disponible"
+javaExecutableTitle = "Ejecutable de Java"
+javaExecSelDialogTitle = "Seleccionar ejecutable de Java"
+javaExecSelButtonText = "Elegir archivo"
+javaExecDesc = "El ejecutable se valida antes de iniciar el juego."
+javaPathDesc = "La ruta debe terminar en <strong>{pathSuffix}</strong>."
+jvmOptsTitle = "Opciones adicionales JVM"
+jvmOptsDesc = "Opciones para la JVM. No incluyas <em>-Xms</em> ni <em>-Xmx</em>."
+
+launcherTabHeaderText = "Configuración del launcher"
+launcherTabHeaderDesc = "Opciones del launcher."
+allowPrereleaseTitle = "Permitir versiones pre-release."
+allowPrereleaseDesc = "Incluyen funciones nuevas no completamente probadas."
+languageTitle = "Idioma"
+languageDesc = "Selecciona el idioma del launcher."
+languageLoading = "Cargando idiomas.."
+dataDirectoryTitle = "Directorio de datos"
+selectDataDirectory = "Seleccionar directorio"
+chooseFolder = "Elegir carpeta"
+dataDirectoryDesc = "Archivos del juego y Java se guardan aquí."
+
+aboutTabHeaderText = "Acerca de"
+aboutTabHeaderDesc = "Información y notas de la versión."
+aboutTitle = "{appName}"
+stableRelease = "Versión estable"
+versionText = "Versión "
+sourceGithub = "Código fuente (GitHub)"
+support = "Soporte"
+devToolsConsole = "Consola DevTools"
+releaseNotes = "Notas de la versión"
+changelog = "Historial de cambios"
+noReleaseNotes = "Sin notas"
+viewReleaseNotes = "Ver en GitHub"
+
+launcherUpdatesHeaderText = "Actualizaciones del launcher"
+launcherUpdatesHeaderDesc = "Descargar e instalar actualizaciones."
+checkForUpdates = "Buscar actualizaciones"
+whatsNew = "Novedades"
+updateReleaseNotes = "Notas de actualización"
+
+[ejs.waiting]
+waitingText = "Esperando a Microsoft.."
+
+[ejs.welcome]
+continueButton = "CONTINUAR"
+
+[js.login]
+login = "INICIAR SESIÓN"
+loggingIn = "INICIANDO..."
+success = "ÉXITO"
+tryAgain = "Intentar de nuevo"
+
+[js.login.error]
+invalidValue = "* Valor inválido"
+requiredValue = "* Requerido"
+
+[js.landing.launch]
+pleaseWait = "Por favor espera.."
+failureTitle = "Error al iniciar"
+failureText = "Ver consola para más detalles."
+okay = "Aceptar"
+
+[js.landing.selectedAccount]
+noAccountSelected = "Ninguna cuenta seleccionada"
+
+[js.landing.selectedServer]
+noSelection = "Ningún servidor seleccionado"
+loading = "Cargando.."
+
+[js.landing.serverStatus]
+server = "SERVIDOR"
+offline = "DESCONECTADO"
+players = "JUGADORES"
