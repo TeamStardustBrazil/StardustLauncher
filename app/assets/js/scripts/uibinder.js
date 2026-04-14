@@ -17,7 +17,6 @@ let fatalStartupError = false
 const VIEWS = {
     landing: '#landingContainer',
     loginOptions: '#loginOptionsContainer',
-    login: '#loginContainer',
     settings: '#settingsContainer',
     welcome: '#welcomeContainer',
     waiting: '#waitingContainer'
@@ -340,37 +339,21 @@ async function validateSelectedAccount(){
                 Lang.queryJS('uibinder.validateAccount.selectAnotherAccountButton')
             )
             setOverlayHandler(() => {
-
-                const isMicrosoft = selectedAcc.type === 'microsoft'
-
-                if(isMicrosoft) {
-                    // Empty for now
-                } else {
-                    // Mojang
-                    // For convenience, pre-populate the username of the account.
-                    document.getElementById('loginUsername').value = selectedAcc.username
-                    validateEmail(selectedAcc.username)
-                }
-                
                 loginOptionsViewOnLoginSuccess = getCurrentView()
                 loginOptionsViewOnLoginCancel = VIEWS.loginOptions
 
                 if(accLen > 0) {
                     loginOptionsViewOnCancel = getCurrentView()
                     loginOptionsViewCancelHandler = () => {
-                        if(isMicrosoft) {
-                            ConfigManager.addMicrosoftAuthAccount(
-                                selectedAcc.uuid,
-                                selectedAcc.accessToken,
-                                selectedAcc.username,
-                                selectedAcc.expiresAt,
-                                selectedAcc.microsoft.access_token,
-                                selectedAcc.microsoft.refresh_token,
-                                selectedAcc.microsoft.expires_at
-                            )
-                        } else {
-                            ConfigManager.addMojangAuthAccount(selectedAcc.uuid, selectedAcc.accessToken, selectedAcc.username, selectedAcc.displayName)
-                        }
+                        ConfigManager.addMicrosoftAuthAccount(
+                            selectedAcc.uuid,
+                            selectedAcc.accessToken,
+                            selectedAcc.username,
+                            selectedAcc.expiresAt,
+                            selectedAcc.microsoft.access_token,
+                            selectedAcc.microsoft.refresh_token,
+                            selectedAcc.microsoft.expires_at
+                        )
                         ConfigManager.save()
                         validateSelectedAccount()
                     }
@@ -388,12 +371,18 @@ async function validateSelectedAccount(){
                         bindOverlayKeys(true, 'accountSelectContent', true)
                         $('#accountSelectContent').fadeIn(250)
                     })
-                } else {
+                } else if(accLen === 1) {
                     const accountsObj = ConfigManager.getAuthAccounts()
                     const accounts = Array.from(Object.keys(accountsObj), v => accountsObj[v])
                     // This function validates the account switch.
                     setSelectedAccount(accounts[0].uuid)
                     toggleOverlay(false)
+                } else {
+                    toggleOverlay(false)
+                    loginOptionsCancelEnabled(false)
+                    loginOptionsViewOnLoginSuccess = VIEWS.landing
+                    loginOptionsViewOnLoginCancel = VIEWS.loginOptions
+                    switchView(getCurrentView(), VIEWS.loginOptions)
                 }
             })
             toggleOverlay(true, accLen > 0)

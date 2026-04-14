@@ -7,9 +7,14 @@ const logger = LoggerUtil.getLogger('ConfigManager')
 
 const sysRoot = process.env.APPDATA || (process.platform == 'darwin' ? process.env.HOME + '/Library/Application Support' : process.env.HOME)
 
-const dataPath = path.join(sysRoot, '.helioslauncher')
+const legacyDataPath = path.join(sysRoot, '.helioslauncher')
+const dataPath = path.join(sysRoot, '.stardustlauncher')
 
 const launcherDir = require('@electron/remote').app.getPath('userData')
+const legacyLauncherDirectories = [
+    path.join(sysRoot, 'Helios Launcher'),
+    path.join(sysRoot, 'helioslauncher')
+]
 
 /**
  * Retrieve the absolute path of the launcher directory.
@@ -40,8 +45,11 @@ exports.setDataDirectory = function(dataDirectory){
 }
 
 const configPath = path.join(exports.getLauncherDirectory(), 'config.json')
-const configPathLEGACY = path.join(dataPath, 'config.json')
-const firstLaunch = !fs.existsSync(configPath) && !fs.existsSync(configPathLEGACY)
+const legacyConfigPaths = [
+    path.join(legacyDataPath, 'config.json'),
+    ...legacyLauncherDirectories.map((dir) => path.join(dir, 'config.json'))
+]
+const firstLaunch = !fs.existsSync(configPath) && legacyConfigPaths.every((candidate) => !fs.existsSync(candidate))
 
 exports.getAbsoluteMinRAM = function(ram){
     if(ram?.minimum != null) {
@@ -104,6 +112,50 @@ const DEFAULT_CONFIG = {
 
 let config = null
 
+function resolveLegacyConfigPath(){
+    for(const candidate of legacyConfigPaths){
+        if(fs.existsSync(candidate)){
+            return candidate
+        }
+    }
+    return null
+}
+
+function normalizeAuthenticationDatabase(){
+    if(config.authenticationDatabase == null || typeof config.authenticationDatabase !== 'object'){
+        config.authenticationDatabase = {}
+    }
+
+    const normalizedDatabase = {}
+    for(const [uuid, account] of Object.entries(config.authenticationDatabase)){
+        if(account?.type === 'microsoft' && account?.microsoft != null){
+            normalizedDatabase[uuid] = account
+        }
+    }
+    config.authenticationDatabase = normalizedDatabase
+
+    if(config.selectedAccount == null || config.authenticationDatabase[config.selectedAccount] == null){
+        const [firstAccount] = Object.keys(config.authenticationDatabase)
+        config.selectedAccount = firstAccount ?? null
+    }
+
+    if(config.selectedAccount == null){
+        config.clientToken = null
+    }
+}
+
+function migrateLauncherDataDirectory(){
+    const configuredDirectory = config.settings?.launcher?.dataDirectory
+    const usingManagedLauncherDirectory = configuredDirectory == null || configuredDirectory === legacyDataPath || configuredDirectory === dataPath
+
+    if(usingManagedLauncherDirectory){
+        if(!fs.existsSync(dataPath) && fs.existsSync(legacyDataPath)){
+            fs.moveSync(legacyDataPath, dataPath)
+        }
+        config.settings.launcher.dataDirectory = dataPath
+    }
+}
+
 // Persistance Utility Functions
 
 /**
@@ -125,31 +177,31 @@ exports.load = function(){
     if(!fs.existsSync(configPath)){
         // Create all parent directories.
         fs.ensureDirSync(path.join(configPath, '..'))
-        if(fs.existsSync(configPathLEGACY)){
-            fs.moveSync(configPathLEGACY, configPath)
+        const legacyConfigPath = resolveLegacyConfigPath()
+        if(legacyConfigPath != null){
+            fs.moveSync(legacyConfigPath, configPath)
         } else {
             doLoad = false
             config = DEFAULT_CONFIG
+            normalizeAuthenticationDatabase()
+            migrateLauncherDataDirectory()
             exports.save()
         }
     }
     if(doLoad){
-        let doValidate = false
         try {
             config = JSON.parse(fs.readFileSync(configPath, 'UTF-8'))
-            doValidate = true
         } catch (err){
             logger.error(err)
             logger.info('Configuration file contains malformed JSON or is corrupt.')
             logger.info('Generating a new configuration file.')
             fs.ensureDirSync(path.join(configPath, '..'))
             config = DEFAULT_CONFIG
-            exports.save()
         }
-        if(doValidate){
-            config = validateKeySet(DEFAULT_CONFIG, config)
-            exports.save()
-        }
+        config = validateKeySet(DEFAULT_CONFIG, config)
+        normalizeAuthenticationDatabase()
+        migrateLauncherDataDirectory()
+        exports.save()
     }
     logger.info('Successfully Loaded')
 }
@@ -310,42 +362,6 @@ exports.getAuthAccounts = function(){
  * @returns {Object} The authenticated account with the given uuid.
  */
 exports.getAuthAccount = function(uuid){
-    return config.authenticationDatabase[uuid]
-}
-
-/**
- * Update the access token of an authenticated mojang account.
- * 
- * @param {string} uuid The uuid of the authenticated account.
- * @param {string} accessToken The new Access Token.
- * 
- * @returns {Object} The authenticated account object created by this action.
- */
-exports.updateMojangAuthAccount = function(uuid, accessToken){
-    config.authenticationDatabase[uuid].accessToken = accessToken
-    config.authenticationDatabase[uuid].type = 'mojang' // For gradual conversion.
-    return config.authenticationDatabase[uuid]
-}
-
-/**
- * Adds an authenticated mojang account to the database to be stored.
- * 
- * @param {string} uuid The uuid of the authenticated account.
- * @param {string} accessToken The accessToken of the authenticated account.
- * @param {string} username The username (usually email) of the authenticated account.
- * @param {string} displayName The in game name of the authenticated account.
- * 
- * @returns {Object} The authenticated account object created by this action.
- */
-exports.addMojangAuthAccount = function(uuid, accessToken, username, displayName){
-    config.selectedAccount = uuid
-    config.authenticationDatabase[uuid] = {
-        type: 'mojang',
-        accessToken,
-        username: username.trim(),
-        uuid: uuid.trim(),
-        displayName: displayName.trim()
-    }
     return config.authenticationDatabase[uuid]
 }
 
