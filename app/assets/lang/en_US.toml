@@ -1,3 +1,6 @@
+[meta]
+displayName = "English (US)"
+
 [ejs.landing]
 updateAvailableTooltip = "Update Available"
 usernamePlaceholder = "Username"
@@ -82,6 +85,9 @@ launcherTabHeaderText = "Launcher Settings"
 launcherTabHeaderDesc = "Options related to the launcher itself."
 allowPrereleaseTitle = "Allow Pre-Release Updates."
 allowPrereleaseDesc = "Pre-Releases include new features which may have not been fully tested or integrated.<br>This will always be true if you are using a pre-release version."
+languageTitle = "Language"
+languageDesc = "Choose the launcher language. The launcher will reload after saving."
+languageLoading = "Loading Languages.."
 dataDirectoryTitle = "Data Directory"
 selectDataDirectory = "Select Data Directory"
 chooseFolder = "Choose Folder"

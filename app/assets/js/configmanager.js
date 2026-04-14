@@ -10,7 +10,10 @@ const sysRoot = process.env.APPDATA || (process.platform == 'darwin' ? process.e
 const legacyDataPath = path.join(sysRoot, '.helioslauncher')
 const dataPath = path.join(sysRoot, '.stardustlauncher')
 
-const launcherDir = require('@electron/remote').app.getPath('userData')
+const electronApp = process.type === 'browser'
+    ? require('electron').app
+    : require('@electron/remote').app
+const launcherDir = electronApp.getPath('userData')
 const legacyLauncherDirectories = [
     path.join(sysRoot, 'Helios Launcher'),
     path.join(sysRoot, 'helioslauncher')
@@ -94,7 +97,8 @@ const DEFAULT_CONFIG = {
         },
         launcher: {
             allowPrerelease: false,
-            dataDirectory: dataPath
+            dataDirectory: dataPath,
+            language: 'en_US'
         }
     },
     newsCache: {
@@ -806,4 +810,23 @@ exports.getAllowPrerelease = function(def = false){
  */
 exports.setAllowPrerelease = function(allowPrerelease){
     config.settings.launcher.allowPrerelease = allowPrerelease
+}
+
+/**
+ * Retrieve the configured launcher language.
+ *
+ * @param {boolean} def Optional. If true, the default value will be returned.
+ * @returns {string} The configured launcher language.
+ */
+exports.getLanguage = function(def = false){
+    return !def ? config.settings.launcher.language : DEFAULT_CONFIG.settings.launcher.language
+}
+
+/**
+ * Set the configured launcher language.
+ *
+ * @param {string} language The new launcher language.
+ */
+exports.setLanguage = function(language){
+    config.settings.launcher.language = language
 }

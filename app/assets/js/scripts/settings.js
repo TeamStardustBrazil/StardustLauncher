@@ -3,7 +3,7 @@ const os     = require('os')
 const semver = require('semver')
 
 const DropinModUtil  = require('./assets/js/dropinmodutil')
-const { MSFT_OPCODE, MSFT_REPLY_TYPE, MSFT_ERROR } = require('./assets/js/ipcconstants')
+const { MSFT_OPCODE, MSFT_REPLY_TYPE, MSFT_ERROR, LAUNCHER_OPCODE } = require('./assets/js/ipcconstants')
 
 const settingsState = {
     invalid: new Set()
@@ -322,17 +322,26 @@ function settingsSaveDisabled(v){
 }
 
 function fullSettingsSave() {
+    const previousLanguage = Lang.getCurrentLanguage()
+
     saveSettingsValues()
+    saveLanguageSettings()
     saveModConfiguration()
     ConfigManager.save()
     saveDropinModConfiguration()
     saveShaderpackSettings()
+
+    return previousLanguage !== ConfigManager.getLanguage()
 }
 
 /* Closes the settings view and saves all data. */
 settingsNavDone.onclick = () => {
-    fullSettingsSave()
-    switchView(getCurrentView(), VIEWS.landing)
+    const languageChanged = fullSettingsSave()
+    if(languageChanged){
+        ipcRenderer.send(LAUNCHER_OPCODE.CHANGE_LANGUAGE, ConfigManager.getLanguage())
+    } else {
+        switchView(getCurrentView(), VIEWS.landing)
+    }
 }
 
 /**
@@ -588,6 +597,8 @@ function refreshAuthAccountSelected(uuid){
 }
 
 const settingsCurrentMicrosoftAccounts = document.getElementById('settingsCurrentMicrosoftAccounts')
+const settingsLanguageSelected = document.getElementById('settingsLanguageSelected')
+const settingsLanguageOptions = document.getElementById('settingsLanguageOptions')
 
 /**
  * Add auth account elements for each one stored in the authentication database.
@@ -643,6 +654,47 @@ function prepareAccountsTab() {
     populateAuthAccounts()
     bindAuthAccountSelect()
     bindAuthAccountLogOut()
+}
+
+function setLanguageOptions(arr, selected){
+    settingsLanguageOptions.innerHTML = ''
+
+    let selectedLanguage = selected
+    if(!arr.some((opt) => opt.id === selectedLanguage) && arr.length > 0){
+        selectedLanguage = arr[0].id
+    }
+
+    for(const opt of arr) {
+        const d = document.createElement('DIV')
+        d.innerHTML = opt.displayName
+        d.setAttribute('value', opt.id)
+        if(opt.id === selectedLanguage) {
+            d.setAttribute('selected', '')
+            settingsLanguageSelected.innerHTML = opt.displayName
+        }
+        d.addEventListener('click', function(){
+            this.parentNode.previousElementSibling.innerHTML = this.innerHTML
+            for(const sib of this.parentNode.children){
+                sib.removeAttribute('selected')
+            }
+            this.setAttribute('selected', '')
+            closeSettingsSelect()
+        })
+        settingsLanguageOptions.appendChild(d)
+    }
+}
+
+function saveLanguageSettings(){
+    for(const opt of settingsLanguageOptions.childNodes){
+        if(opt.hasAttribute('selected')){
+            ConfigManager.setLanguage(opt.getAttribute('value'))
+            return
+        }
+    }
+}
+
+function prepareLauncherTab(){
+    setLanguageOptions(Lang.getAvailableLanguages(), Lang.getCurrentLanguage())
 }
 
 /**
@@ -1537,6 +1589,7 @@ async function prepareSettings(first = false) {
     }
     await initSettingsValues()
     prepareAccountsTab()
+    prepareLauncherTab()
     await prepareJavaTab()
     prepareAboutTab()
 }

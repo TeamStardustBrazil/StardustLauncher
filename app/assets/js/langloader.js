@@ -3,10 +3,35 @@ const path = require('path')
 const toml = require('toml')
 const merge = require('lodash.merge')
 
+const langDir = path.join(__dirname, '..', 'lang')
+
 let lang
+let currentLanguage = 'en_US'
+
+function getLanguageFilePath(id){
+    return path.join(langDir, `${id}.toml`)
+}
 
 exports.loadLanguage = function(id){
-    lang = merge(lang || {}, toml.parse(fs.readFileSync(path.join(__dirname, '..', 'lang', `${id}.toml`))) || {})
+    lang = merge(lang || {}, toml.parse(fs.readFileSync(getLanguageFilePath(id), 'utf-8')) || {})
+}
+
+exports.getCurrentLanguage = function(){
+    return currentLanguage
+}
+
+exports.getAvailableLanguages = function(){
+    return fs.readdirSync(langDir)
+        .filter((file) => file.endsWith('.toml') && !file.startsWith('_'))
+        .map((file) => {
+            const id = path.basename(file, '.toml')
+            const fileData = toml.parse(fs.readFileSync(path.join(langDir, file), 'utf-8'))
+            return {
+                id,
+                displayName: fileData.meta?.displayName || id
+            }
+        })
+        .sort((a, b) => a.displayName.localeCompare(b.displayName))
 }
 
 exports.query = function(id, placeHolders){
@@ -32,12 +57,23 @@ exports.queryEJS = function(id, placeHolders){
     return exports.query(`ejs.${id}`, placeHolders)
 }
 
-exports.setupLanguage = function(){
+exports.setupLanguage = function(id = 'en_US'){
+    lang = {}
+
     // Load Language Files
     exports.loadLanguage('en_US')
-    // Uncomment this when translations are ready
-    //exports.loadLanguage('xx_XX')
+
+    const selectedLanguage = id !== '_custom' && fs.existsSync(getLanguageFilePath(id))
+        ? id
+        : 'en_US'
+
+    if(selectedLanguage !== 'en_US'){
+        exports.loadLanguage(selectedLanguage)
+    }
 
     // Load Custom Language File for Launcher Customizer
     exports.loadLanguage('_custom')
+
+    currentLanguage = selectedLanguage
+    return currentLanguage
 }

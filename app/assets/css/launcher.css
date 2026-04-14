@@ -1377,6 +1377,10 @@ input:checked + .toggleSwitchSlider:before {
     width: 50%;
 }
 
+#settingsLanguageContainer {
+    width: 16em;
+}
+
 /* Div which displays the selected option. */
 .settingsSelectSelected {
     border-radius: 3px;

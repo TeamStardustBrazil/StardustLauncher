@@ -23,7 +23,11 @@ DistroAPI['commonDir'] = ConfigManager.getCommonDirectory()
 DistroAPI['instanceDir'] = ConfigManager.getInstanceDirectory()
 
 // Load Strings
-LangLoader.setupLanguage()
+const resolvedLanguage = LangLoader.setupLanguage(ConfigManager.getLanguage())
+if(ConfigManager.getLanguage() !== resolvedLanguage){
+    ConfigManager.setLanguage(resolvedLanguage)
+    ConfigManager.save()
+}
 
 /**
  * 

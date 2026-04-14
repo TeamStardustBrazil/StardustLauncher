@@ -1,0 +1,191 @@
+[meta]
+displayName = "Portugues (Brasil)"
+
+[ejs.landing]
+updateAvailableTooltip = "Atualizacao disponivel"
+usernamePlaceholder = "Usuario"
+usernameEditButton = "Editar"
+settingsTooltip = "Configuracoes"
+serverStatus = "SERVIDOR"
+serverStatusPlaceholder = "OFFLINE"
+mojangStatus = "STATUS MOJANG"
+mojangStatusTooltipTitle = "Servicos"
+mojangStatusNETitle = "Nao&nbsp;Essenciais"
+newsButton = "NOTICIAS"
+launchButton = "JOGAR"
+launchButtonPlaceholder = "&#8226; Nenhum servidor selecionado"
+launchDetails = "Aguarde.."
+newsNavigationStatus = "{currentPage} de {totalPages}"
+newsErrorLoadSpan = "Buscando noticias.."
+newsErrorFailedSpan = "Falha ao carregar"
+newsErrorRetryButton = "Tentar novamente"
+newsErrorNoneSpan = "Sem noticias"
+
+[ejs.loginOptions]
+loginOptionsTitle = "Opcoes de Login"
+loginWithMicrosoft = "Entrar com Microsoft"
+cancelButton = "Cancelar"
+
+[ejs.overlay]
+serverSelectHeader = "Servidores disponiveis"
+serverSelectConfirm = "Selecionar"
+serverSelectCancel = "Cancelar"
+accountSelectHeader = "Selecione uma conta"
+accountSelectConfirm = "Selecionar"
+accountSelectCancel = "Cancelar"
+
+[ejs.settings]
+navHeaderText = "Configuracoes"
+navAccount = "Conta"
+navMinecraft = "Minecraft"
+navMods = "Mods"
+navJava = "Java"
+navLauncher = "Launcher"
+navAbout = "Sobre"
+navUpdates = "Atualizacoes"
+navDone = "Concluir"
+tabAccountHeaderText = "Configuracoes da Conta"
+tabAccountHeaderDesc = "Adicione novas contas ou gerencie as existentes."
+microsoftAccount = "Microsoft"
+addMicrosoftAccount = "+ Adicionar Conta Microsoft"
+minecraftTabHeaderText = "Configuracoes do Minecraft"
+minecraftTabHeaderDesc = "Opcoes relacionadas a inicializacao do jogo."
+gameResolutionTitle = "Resolucao do jogo"
+launchFullscreenTitle = "Iniciar em tela cheia."
+autoConnectTitle = "Conectar automaticamente ao servidor ao iniciar."
+launchDetachedTitle = "Executar o jogo separado do launcher."
+launchDetachedDesc = "Se o jogo nao estiver separado, fechar o launcher tambem fechara o jogo."
+tabModsHeaderText = "Configuracoes de Mods"
+tabModsHeaderDesc = "Ative ou desative mods."
+switchServerButton = "Trocar"
+requiredMods = "Mods obrigatorios"
+optionalMods = "Mods opcionais"
+dropinMods = "Mods avulsos"
+addMods = "Adicionar Mods"
+dropinRefreshNote = "(F5 para atualizar)"
+shaderpacks = "Shaderpacks"
+shaderpackDesc = "Ative ou desative shaders. Lembre-se de que shaders so rodam bem em maquinas mais potentes. Voce pode adicionar pacotes personalizados aqui."
+selectShaderpack = "Selecionar Shaderpack"
+tabJavaHeaderText = "Configuracoes do Java"
+tabJavaHeaderDesc = "Gerencie a configuracao do Java (avancado)."
+memoryTitle = "Memoria"
+maxRAM = "RAM maxima"
+minRAM = "RAM minima"
+memoryDesc = "O minimo recomendado de RAM e 3 gigabytes. Definir os valores minimo e maximo como iguais pode reduzir travamentos."
+memoryTotalTitle = "Total"
+memoryAvailableTitle = "Disponivel"
+javaExecutableTitle = "Executavel do Java"
+javaExecSelDialogTitle = "Selecionar executavel do Java"
+javaExecSelButtonText = "Escolher arquivo"
+javaExecDesc = "O executavel do Java e validado antes de iniciar o jogo."
+javaPathDesc = "O caminho deve terminar com <strong>{pathSuffix}</strong>."
+jvmOptsTitle = "Opcoes adicionais da JVM"
+jvmOptsDesc = "Opcoes fornecidas para a JVM em tempo de execucao. <em>-Xms</em> e <em>-Xmx</em> nao devem ser incluidos."
+launcherTabHeaderText = "Configuracoes do Launcher"
+launcherTabHeaderDesc = "Opcoes relacionadas ao proprio launcher."
+allowPrereleaseTitle = "Permitir atualizacoes Pre-Release."
+allowPrereleaseDesc = "Pre-Releases incluem novos recursos que talvez ainda nao tenham sido totalmente testados ou integrados.<br>Isso sempre sera verdadeiro se voce estiver usando uma versao pre-release."
+languageTitle = "Idioma"
+languageDesc = "Escolha o idioma do launcher. O launcher sera recarregado apos salvar."
+languageLoading = "Carregando idiomas.."
+dataDirectoryTitle = "Diretorio de dados"
+selectDataDirectory = "Selecionar diretorio de dados"
+chooseFolder = "Escolher pasta"
+dataDirectoryDesc = "Todos os arquivos do jogo e instalacoes locais de Java serao armazenados no diretorio de dados.<br>Capturas de tela e mundos salvos ficam na pasta da instancia da configuracao correspondente do servidor."
+aboutTabHeaderText = "Sobre"
+aboutTabHeaderDesc = "Veja informacoes e notas de versao da versao atual."
+aboutTitle = "{appName}"
+stableRelease = "Versao estavel"
+versionText = "Versao "
+sourceGithub = "Codigo-fonte (GitHub)"
+support = "Suporte"
+devToolsConsole = "Console DevTools"
+releaseNotes = "Notas da versao"
+changelog = "Changelog"
+noReleaseNotes = "Sem notas de versao"
+viewReleaseNotes = "Ver notas da versao no GitHub"
+launcherUpdatesHeaderText = "Atualizacoes do Launcher"
+launcherUpdatesHeaderDesc = "Baixe, instale e revise atualizacoes do launcher."
+checkForUpdates = "Verificar atualizacoes"
+whatsNew = "Novidades"
+updateReleaseNotes = "Notas da atualizacao"
+
+[ejs.waiting]
+waitingText = "Aguardando Microsoft.."
+
+[ejs.welcome]
+continueButton = "CONTINUAR"
+
+[js.index]
+microsoftLoginTitle = "Login Microsoft"
+microsoftLogoutTitle = "Logout Microsoft"
+
+[js.login]
+login = "ENTRAR"
+loggingIn = "ENTRANDO"
+success = "SUCESSO"
+tryAgain = "Tentar novamente"
+
+[js.login.error]
+invalidValue = "* Valor invalido"
+requiredValue = "* Obrigatorio"
+
+[js.login.error.unknown]
+title = "Erro desconhecido durante o login"
+desc = "Ocorreu um erro desconhecido. Consulte o console para mais detalhes."
+
+[js.landing.launch]
+pleaseWait = "Aguarde.."
+failureTitle = "Erro ao iniciar"
+failureText = "Veja o console (CTRL + Shift + i) para mais detalhes."
+okay = "Ok"
+
+[js.landing.selectedAccount]
+noAccountSelected = "Nenhuma conta selecionada"
+
+[js.landing.selectedServer]
+noSelection = "Nenhum servidor selecionado"
+loading = "Carregando.."
+
+[js.landing.serverStatus]
+server = "SERVIDOR"
+offline = "OFFLINE"
+players = "JOGADORES"
+
+[js.landing.news]
+checking = "Buscando noticias"
+
+[js.overlay]
+dismiss = "Fechar"
+
+[js.settings.msftLogin]
+errorTitle = "Erro no login Microsoft"
+errorMessage = "Nao foi possivel concluir o login com a Microsoft."
+okButton = "Ok"
+
+[js.settings.msftLogout]
+errorTitle = "Erro no logout Microsoft"
+errorMessage = "Nao foi possivel concluir o logout da conta Microsoft."
+okButton = "Ok"
+
+[js.settings.authAccountSelect]
+selectButton = "Selecionar conta"
+selectedButton = "Conta selecionada ✓"
+
+[js.settings.authAccountLogout]
+lastAccountWarningTitle = "Remover ultima conta"
+lastAccountWarningMessage = "Esta e a ultima conta salva. Se continuar, sera necessario fazer login novamente."
+confirmButton = "Continuar"
+cancelButton = "Cancelar"
+
+[js.settings.authAccountPopulate]
+username = "Usuario"
+uuid = "UUID"
+selectAccount = "Selecionar conta"
+selectedAccount = "Conta selecionada ✓"
+logout = "Sair"
+
+[js.uicore.autoUpdate]
+checkingForUpdateButton = "Verificando atualizacoes.."
+installNowButton = "Instalar agora"
+checkForUpdatesButton = "Verificar atualizacoes"

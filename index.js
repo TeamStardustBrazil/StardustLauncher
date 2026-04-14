@@ -10,11 +10,23 @@ const isDev                             = require('./app/assets/js/isdev')
 const path                              = require('path')
 const semver                            = require('semver')
 const { pathToFileURL }                 = require('url')
-const { AZURE_CLIENT_ID, MSFT_OPCODE, MSFT_REPLY_TYPE, MSFT_ERROR, SHELL_OPCODE } = require('./app/assets/js/ipcconstants')
+const { AZURE_CLIENT_ID, MSFT_OPCODE, MSFT_REPLY_TYPE, MSFT_ERROR, SHELL_OPCODE, LAUNCHER_OPCODE } = require('./app/assets/js/ipcconstants')
 const LangLoader                        = require('./app/assets/js/langloader')
+const ConfigManager                     = require('./app/assets/js/configmanager')
 
-// Setup Lang
-LangLoader.setupLanguage()
+function syncConfiguredLanguage(language = null) {
+    if(!ConfigManager.isLoaded()){
+        ConfigManager.load()
+    }
+
+    const resolvedLanguage = LangLoader.setupLanguage(language ?? ConfigManager.getLanguage())
+    if(ConfigManager.getLanguage() !== resolvedLanguage){
+        ConfigManager.setLanguage(resolvedLanguage)
+        ConfigManager.save()
+    }
+
+    return resolvedLanguage
+}
 
 // Setup auto updater.
 function initAutoUpdater(event, data) {
@@ -101,6 +113,14 @@ ipcMain.handle(SHELL_OPCODE.TRASH_ITEM, async (event, ...args) => {
             result: false,
             error: error
         }
+    }
+})
+
+ipcMain.on(LAUNCHER_OPCODE.CHANGE_LANGUAGE, (event, language) => {
+    syncConfiguredLanguage(language)
+    const targetWindow = BrowserWindow.fromWebContents(event.sender)
+    if(targetWindow != null){
+        targetWindow.reload()
     }
 })
 
@@ -223,6 +243,7 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGOUT, (ipcEvent, uuid, isLastAccount) => {
 let win
 
 function createWindow() {
+    syncConfiguredLanguage()
 
     win = new BrowserWindow({
         width: 980,
